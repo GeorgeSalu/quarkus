@@ -2,13 +2,10 @@
 
 desenvolvedores que já tem conhecimento na linguagem de programação Java e desejam obter maestria para construir API's RESTful com Quarkus. Os assuntos abordados no curso são:
 
-Alinhamento das especificações REST;
-
-Quarkus, um framework java completo para desenvolvimento de API's Rest com todos os recursos necessários para acesso a bancos de dados, segurança, Web, etc;
-
-Rest Assured - uma biblioteca para realizar testes automatizados na API.
-
-Banco de Dados PostgreSQL, um banco de dados SQL relacional robusto e bastante utilizado pelo mercado.
+  - Alinhamento das especificações REST;
+  - Quarkus, um framework java completo para desenvolvimento de API's Rest com todos os recursos necessários para acesso a bancos de dados, segurança, Web, etc;
+  - Rest Assured - uma biblioteca para realizar testes automatizados na API.
+  - Banco de Dados PostgreSQL, um banco de dados SQL relacional robusto e bastante utilizado pelo mercado.
 
 Todo o projeto é criado, configurado e codificado pelo instrutor, os links para o código fonte das aulas estará anexo as aulas que fizerem sentido, além do link para os sites mostrados no curso e o link para download direto das ferramentas nas versões utilizadas pelo instrutor.
 
