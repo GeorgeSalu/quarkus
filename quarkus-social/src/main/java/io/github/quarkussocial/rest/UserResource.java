@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 import io.github.quarkussocial.domain.model.User;
 import io.github.quarkussocial.domain.repository.UserRepository;
 import io.github.quarkussocial.rest.dto.CreateUserRequest;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("/users")
