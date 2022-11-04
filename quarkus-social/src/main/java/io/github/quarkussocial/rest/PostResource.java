@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import io.github.quarkussocial.domain.model.Post;
 import io.github.quarkussocial.domain.model.User;
+import io.github.quarkussocial.domain.repository.FollowerRepository;
 import io.github.quarkussocial.domain.repository.PostRepository;
 import io.github.quarkussocial.domain.repository.UserRepository;
 import io.github.quarkussocial.rest.dto.CreatePostRequest;
@@ -31,11 +33,13 @@ public class PostResource {
 
 	private UserRepository userRepository;
 	private PostRepository postRepository;
+	private FollowerRepository followerRepository;
 
 	@Inject
-	public PostResource(UserRepository userRepository, PostRepository postRepository) {
+	public PostResource(UserRepository userRepository, PostRepository postRepository, FollowerRepository followerRepository) {
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
+		this.followerRepository = followerRepository;
 	}
 	
 	@POST
@@ -56,10 +60,25 @@ public class PostResource {
 	}
 	
 	@GET
-	public Response listPost(@PathParam("userId") Long userId) {
+	public Response listPost(@PathParam("userId") Long userId,@HeaderParam("followerId") Long followerId) {
 		User user = userRepository.findById(userId);
 		if(user == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		
+		if(followerId == null) {
+			return Response
+					.status(Response.Status.BAD_REQUEST)
+					.entity("you forgot the header followerId")
+					.build();
+		}
+		
+		User follower = userRepository.findById(followerId);
+		
+		boolean follows = followerRepository.follows(follower, user);
+		
+		if(!follows) {
+			return Response.status(Response.Status.FORBIDDEN).build();
 		}
 		
 		PanacheQuery<Post> query = postRepository.find("user",Sort.by("dateTime", Direction.Descending), user);
