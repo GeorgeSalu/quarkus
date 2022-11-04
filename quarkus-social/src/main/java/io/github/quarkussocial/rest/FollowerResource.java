@@ -1,6 +1,7 @@
 package io.github.quarkussocial.rest;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -31,6 +32,7 @@ public class FollowerResource {
 	
 	
 	@PUT
+	@Transactional
 	public Response followerUser(@PathParam("userId") Long userId, FollowerRequest request) {
 		User user = userRepository.findById(userId);
 		
@@ -40,11 +42,17 @@ public class FollowerResource {
 		
 		var follower = userRepository.findById(request.getFollowerId());
 		
-		var entity = new Follower();
-		entity.setUser(user);
-		entity.setFollower(follower);
+		boolean follows = repository.follows(follower, user);
 		
-		repository.persist(entity);
+		if(!follows) {
+			
+			var entity = new Follower();
+			entity.setUser(user);
+			entity.setFollower(follower);
+			
+			repository.persist(entity);
+			
+		}
 		
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
