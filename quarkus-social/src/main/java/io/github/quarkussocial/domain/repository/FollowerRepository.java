@@ -1,5 +1,6 @@
 package io.github.quarkussocial.domain.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,6 +22,11 @@ public class FollowerRepository implements PanacheRepository<Follower>{
 		Optional<Follower> resultOptional = query.firstResultOptional();
 		
 		return resultOptional.isPresent();
+	}
+	
+	public List<Follower> findByUser(Long userId) {
+		PanacheQuery<Follower> query = find("user.id", userId);
+		return query.list();
 	}
 	
 }
