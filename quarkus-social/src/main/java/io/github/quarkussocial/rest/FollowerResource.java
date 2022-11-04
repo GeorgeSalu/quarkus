@@ -34,6 +34,11 @@ public class FollowerResource {
 	@PUT
 	@Transactional
 	public Response followerUser(@PathParam("userId") Long userId, FollowerRequest request) {
+		
+		if(userId.equals(request.getFollowerId())) {
+			return Response.status(Response.Status.CONFLICT).build();
+		}
+		
 		User user = userRepository.findById(userId);
 		
 		if(user == null) {
