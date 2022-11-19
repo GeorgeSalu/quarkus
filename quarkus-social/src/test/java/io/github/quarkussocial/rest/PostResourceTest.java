@@ -97,7 +97,7 @@ public class PostResourceTest {
 			.get()
 		.then()
 			.statusCode(400)
-			.body(Matchers.is("you forgot the header followerId"));
+			.body(Matchers.is("You forgot the header followerId"));
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class PostResourceTest {
 			.get()
 		.then()
 			.statusCode(400)
-			.body(Matchers.is("inexistent followerId"));
+			.body(Matchers.is("Inexistent followerId"));
 		
 	}
 	

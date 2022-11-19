@@ -69,7 +69,7 @@ public class PostResource {
 		if(followerId == null) {
 			return Response
 					.status(Response.Status.BAD_REQUEST)
-					.entity("you forgot the header followerId")
+					.entity("You forgot the header followerId")
 					.build();
 		}
 		
@@ -78,7 +78,7 @@ public class PostResource {
 		if(follower == null) {
 			return Response
 					.status(Response.Status.BAD_REQUEST)
-					.entity("inexistent followerId")
+					.entity("Inexistent followerId")
 					.build();
 		}
 		
