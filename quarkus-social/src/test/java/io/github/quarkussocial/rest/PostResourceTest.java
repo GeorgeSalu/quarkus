@@ -73,4 +73,34 @@ public class PostResourceTest {
 		
 	}
 	
+	@Test
+	@DisplayName("should  return 404 when user doesn't exist")
+	public void listPostUserNotFoundTest() {
+		
+	}
+	
+	@Test
+	@DisplayName("should  return 404 when followerId header is not present")
+	public void listPostFollowerHeaderNotSendTest() {
+		
+	}
+	
+	@Test
+	@DisplayName("should  return 404 when follower doesn't exist")
+	public void listPostFollowerNotFoundTest() {
+		
+	}
+	
+	@Test
+	@DisplayName("should  return 404 when follower ins't a follower")
+	public void listPostNotFollower() {
+		
+	}
+	
+	@Test
+	@DisplayName("should  return posts")
+	public void listPostsTest() {
+		
+	}
+	
 }
