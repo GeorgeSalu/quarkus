@@ -103,6 +103,17 @@ public class PostResourceTest {
 	@Test
 	@DisplayName("should  return 400 when follower doesn't exist")
 	public void listPostFollowerNotFoundTest() {
+
+		var inexistenFollowerId = 999;
+		
+		given()
+			.pathParam("userId", userId)
+			.header("followerId", inexistenFollowerId)
+		.when()
+			.get()
+		.then()
+			.statusCode(400)
+			.body(Matchers.is("inexistent followerId"));
 		
 	}
 	
