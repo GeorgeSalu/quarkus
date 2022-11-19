@@ -49,7 +49,7 @@ public class UserResourceTest {
 	}
 	
 	@Test
-	@DisplayName("should return error whene json is not valid")
+	@DisplayName("should return error where json is not valid")
 	@Order(2)
 	public void createUserValidationErroTest() {
 		var user = new CreateUserRequest();
