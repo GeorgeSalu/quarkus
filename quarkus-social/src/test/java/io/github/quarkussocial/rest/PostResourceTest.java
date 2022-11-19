@@ -1,5 +1,11 @@
 package io.github.quarkussocial.rest;
 
+import static io.restassured.RestAssured.given;
+
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,20 +16,13 @@ import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
-
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-
-import org.junit.jupiter.api.BeforeEach;
-
 @QuarkusTest
 @TestHTTPEndpoint(PostResource.class)
 public class PostResourceTest {
 
 	@Inject
 	UserRepository userRepository;
+	Long userId;
 	
 	@BeforeEach
 	@Transactional
@@ -33,6 +32,7 @@ public class PostResourceTest {
 		user.setName("fulano");
 		
 		userRepository.persist(user);
+		userId = user.getId();
 	}
 	
 	@Test
