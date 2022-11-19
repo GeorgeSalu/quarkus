@@ -80,13 +80,13 @@ public class PostResourceTest {
 	}
 	
 	@Test
-	@DisplayName("should  return 404 when followerId header is not present")
+	@DisplayName("should  return 400 when followerId header is not present")
 	public void listPostFollowerHeaderNotSendTest() {
 		
 	}
 	
 	@Test
-	@DisplayName("should  return 403 when follower doesn't exist")
+	@DisplayName("should  return 400 when follower doesn't exist")
 	public void listPostFollowerNotFoundTest() {
 		
 	}
