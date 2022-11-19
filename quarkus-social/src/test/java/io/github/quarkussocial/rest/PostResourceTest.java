@@ -86,13 +86,13 @@ public class PostResourceTest {
 	}
 	
 	@Test
-	@DisplayName("should  return 404 when follower doesn't exist")
+	@DisplayName("should  return 403 when follower doesn't exist")
 	public void listPostFollowerNotFoundTest() {
 		
 	}
 	
 	@Test
-	@DisplayName("should  return 404 when follower ins't a follower")
+	@DisplayName("should  return 403 when follower ins't a follower")
 	public void listPostNotFollower() {
 		
 	}
