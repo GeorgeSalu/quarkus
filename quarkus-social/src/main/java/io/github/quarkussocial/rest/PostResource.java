@@ -85,7 +85,10 @@ public class PostResource {
 		boolean follows = followerRepository.follows(follower, user);
 		
 		if(!follows) {
-			return Response.status(Response.Status.FORBIDDEN).build();
+			return Response
+					.status(Response.Status.FORBIDDEN)
+					.entity("You can't see tree posts")
+					.build();
 		}
 		
 		PanacheQuery<Post> query = postRepository.find("user",Sort.by("dateTime", Direction.Descending), user);

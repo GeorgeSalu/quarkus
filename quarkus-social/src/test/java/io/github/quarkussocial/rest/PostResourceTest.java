@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import io.github.quarkussocial.domain.model.Follower;
 import io.github.quarkussocial.domain.model.User;
+import io.github.quarkussocial.domain.repository.FollowerRepository;
 import io.github.quarkussocial.domain.repository.UserRepository;
 import io.github.quarkussocial.rest.dto.CreatePostRequest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -23,17 +25,42 @@ public class PostResourceTest {
 
 	@Inject
 	UserRepository userRepository;
+	@Inject
+	FollowerRepository followerRepository;
+	
 	Long userId;
+	Long userNotFollowerId;
+	Long userFollowerId;
 	
 	@BeforeEach
 	@Transactional
 	public void setup() {
+		// usuario padrao testes
 		var user = new User();
 		user.setAge(30);
 		user.setName("fulano");
 		
 		userRepository.persist(user);
 		userId = user.getId();
+		
+		// usuario que não segue ninguem
+		var userNotFollower = new User();
+		userNotFollower.setAge(33);
+		userNotFollower.setName("cicrano");
+		userRepository.persist(userNotFollower);
+		userNotFollowerId = userNotFollower.getId();
+		
+		// usuario seguidor
+		var userFollower = new User();
+		userFollower.setAge(33);
+		userFollower.setName("cicrano");
+		userRepository.persist(userFollower);
+		userFollowerId = userFollower.getId();
+		
+		Follower follower = new Follower();
+		follower.setUser(user);
+		follower.setFollower(userFollower);
+		followerRepository.persist(follower);
 	}
 	
 	@Test
@@ -120,13 +147,26 @@ public class PostResourceTest {
 	@Test
 	@DisplayName("should  return 403 when follower ins't a follower")
 	public void listPostNotFollower() {
-		
+		given()
+			.pathParam("userId", userId)
+			.header("followerId", userNotFollowerId)
+		.when()
+			.get()
+		.then()
+			.statusCode(403)
+			.body(Matchers.is("You can't see tree posts"));
 	}
 	
 	@Test
 	@DisplayName("should  return posts")
 	public void listPostsTest() {
-		
+		given()
+			.pathParam("userId", userId)
+			.header("followerId", userFollowerId)
+		.when()
+			.get()
+		.then()
+			.statusCode(200);
 	}
 	
 }
