@@ -158,7 +158,7 @@ public class PostResourceTest {
 	}
 	
 	@Test
-	@DisplayName("should  return posts")
+	@DisplayName("should return 200 posts")
 	public void listPostsTest() {
 		given()
 			.pathParam("userId", userId)
