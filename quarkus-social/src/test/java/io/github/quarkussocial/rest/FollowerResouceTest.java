@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import io.github.quarkussocial.domain.model.Follower;
 import io.github.quarkussocial.domain.model.User;
 import io.github.quarkussocial.domain.repository.UserRepository;
 import io.github.quarkussocial.rest.dto.FollowerRequest;
@@ -24,6 +25,7 @@ public class FollowerResouceTest {
 	@Inject
 	UserRepository userRepository;
 	Long userId;
+	Long followerId;
 	
 	@BeforeEach
 	@Transactional
@@ -34,6 +36,13 @@ public class FollowerResouceTest {
 		user.setName("fulano");
 		userRepository.persist(user);
 		userId = user.getId();
+		
+		// o seguidor
+		var follower = new User();
+		follower.setAge(31);
+		follower.setName("cicrano");
+		userRepository.persist(follower);
+		followerId = follower.getId();
 	}
 	
 	@Test
@@ -68,6 +77,23 @@ public class FollowerResouceTest {
 			.put()
 		.then()
 			.statusCode(Response.Status.NOT_FOUND.getStatusCode());
+	}
+	
+	@Test
+	@DisplayName("should return 404 when user id dosen't exists")
+	public void followerUserTese() {
+		var body = new FollowerRequest();
+		body.setFollowerId(followerId);
+		
+		
+		given()
+			.contentType(ContentType.JSON)
+			.body(body)
+			.pathParam("userId", userId)
+		.when()
+			.put()
+		.then()
+			.statusCode(Response.Status.NO_CONTENT.getStatusCode());
 	}
 	
 }
