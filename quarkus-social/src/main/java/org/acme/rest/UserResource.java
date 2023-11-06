@@ -3,6 +3,7 @@ package org.acme.rest;
 import org.acme.dto.CreateUserRequest;
 import org.acme.model.User;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -31,7 +32,8 @@ public class UserResource {
 	
 	@GET
 	public Response listAllUsers() {
-		return Response.ok().build();
+		PanacheQuery<User> query = User.findAll();
+		return Response.ok(query.list()).build();
 	}
 	
 }
