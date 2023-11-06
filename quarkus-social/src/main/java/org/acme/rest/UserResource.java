@@ -3,6 +3,7 @@ package org.acme.rest;
 import org.acme.dto.CreateUserRequest;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -17,6 +18,11 @@ public class UserResource {
 	@POST
 	public Response createUser( CreateUserRequest userRequest ) {
 		return Response.ok(userRequest).build();
+	}
+	
+	@GET
+	public Response listAllUsers() {
+		return Response.ok().build();
 	}
 	
 }
