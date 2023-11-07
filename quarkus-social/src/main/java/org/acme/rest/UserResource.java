@@ -29,6 +29,7 @@ import jakarta.ws.rs.core.Response;
 public class UserResource {
 	
 	
+	private static final int UNPROCESASSABLE_ENTITY_STATUS = 422;
 	private UserRepository repository;
 	private Validator validator;
 
@@ -44,8 +45,7 @@ public class UserResource {
 		
 		Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
 		if(!violations.isEmpty()) {
-			ResponseError responseError = ResponseError.createFormValidation(violations);
-			return Response.status(400).entity(responseError).build();
+			return ResponseError.createFormValidation(violations).withStatusCode(UNPROCESASSABLE_ENTITY_STATUS);
 		}
 		
 		User user = new User();
@@ -54,7 +54,10 @@ public class UserResource {
 		
 		repository.persist(user);
 		
-		return Response.ok(userRequest).build();
+		return Response
+					.status(Response.Status.CREATED.getStatusCode())
+					.entity(user)
+					.build();
 	}
 	
 	@GET
@@ -70,7 +73,7 @@ public class UserResource {
 		User user = repository.findById(id);
 		if(user != null) {
 			repository.delete(user);
-			return Response.ok().build();
+			return Response.noContent().build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
@@ -83,7 +86,7 @@ public class UserResource {
 		if(user != null) {
 			user.setName(userData.getName());
 			user.setAge(userData.getAge());
-			return Response.ok().build();
+			return Response.noContent().build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
