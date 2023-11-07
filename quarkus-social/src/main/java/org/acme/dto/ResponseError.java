@@ -23,7 +23,7 @@ public class ResponseError {
 			.map(cv -> new FieldError(cv.getPropertyPath().toString(), cv.getMessage()))
 			.collect(Collectors.toList());
 		
-		String message = "Validatio Error";
+		String message = "Validation Error";
 		
 		var responseError = new ResponseError(message, errors);
 		return responseError;
