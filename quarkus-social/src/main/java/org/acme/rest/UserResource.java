@@ -28,8 +28,6 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 	
-	
-	private static final int UNPROCESASSABLE_ENTITY_STATUS = 422;
 	private UserRepository repository;
 	private Validator validator;
 
@@ -45,7 +43,7 @@ public class UserResource {
 		
 		Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
 		if(!violations.isEmpty()) {
-			return ResponseError.createFormValidation(violations).withStatusCode(UNPROCESASSABLE_ENTITY_STATUS);
+			return ResponseError.createFormValidation(violations).withStatusCode(ResponseError.UNPROCESASSABLE_ENTITY_STATUS);
 		}
 		
 		User user = new User();
