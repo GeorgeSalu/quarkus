@@ -1,8 +1,13 @@
 package org.acme.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class CreateUserRequest {
 
+	@NotBlank
 	private String name;
+	@NotNull
 	private Integer age;
 
 	public String getName() {
