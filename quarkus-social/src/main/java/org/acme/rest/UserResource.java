@@ -43,7 +43,7 @@ public class UserResource {
 		
 		Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
 		if(!violations.isEmpty()) {
-			return ResponseError.createFormValidation(violations).withStatusCode(ResponseError.UNPROCESASSABLE_ENTITY_STATUS);
+			return ResponseError.createFormValidation(violations).withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 		}
 		
 		User user = new User();
