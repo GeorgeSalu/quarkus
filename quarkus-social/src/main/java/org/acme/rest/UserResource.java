@@ -3,7 +3,6 @@ package org.acme.rest;
 import org.acme.dto.CreateUserRequest;
 import org.acme.model.User;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
