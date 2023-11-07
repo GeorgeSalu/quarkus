@@ -3,6 +3,7 @@ package org.acme.rest;
 import java.util.Set;
 
 import org.acme.dto.CreateUserRequest;
+import org.acme.dto.ResponseError;
 import org.acme.model.User;
 import org.acme.repository.UserRepository;
 
@@ -42,10 +43,9 @@ public class UserResource {
 	public Response createUser( CreateUserRequest userRequest ) {
 		
 		Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
-		if(violations.isEmpty()) {
-			ConstraintViolation<CreateUserRequest> erro = violations.stream().findAny().get();
-			String message = erro.getMessage();
-			return Response.status(400).entity(message).build();
+		if(!violations.isEmpty()) {
+			ResponseError responseError = ResponseError.createFormValidation(violations);
+			return Response.status(400).entity(responseError).build();
 		}
 		
 		User user = new User();
