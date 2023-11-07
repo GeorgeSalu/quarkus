@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 public class CreateUserRequest {
 
-	@NotBlank
+	@NotBlank(message = "Name is required")
 	private String name;
-	@NotNull
+	@NotNull(message = "Age is required")
 	private Integer age;
 
 	public String getName() {
