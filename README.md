@@ -1,6 +1,6 @@
-## quarkus https://quarkus.io/
+## [quarkus](https://quarkus.io/)
 
 #### incluindo dependencia
 
-    ./mvnw quarkus:add-extension -Dextensions="resteasy-jsonb"
+- ./mvnw quarkus:add-extension -Dextensions="<nome-dependencia>"
 
