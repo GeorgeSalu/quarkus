@@ -1,6 +1,7 @@
 package org.acme.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,7 +67,27 @@ public class Post {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Post [id=" + id + ", text=" + text + ", dataTime=" + dataTime + ", user=" + user + "]";
+	}
+	
 }
