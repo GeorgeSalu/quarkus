@@ -1,6 +1,9 @@
 package org.acme.rest;
 
+import java.util.stream.Collectors;
+
 import org.acme.dto.CreatePostRequest;
+import org.acme.dto.PostResponse;
 import org.acme.model.Post;
 import org.acme.model.User;
 import org.acme.repository.PostRepository;
@@ -55,7 +58,14 @@ public class PostResource {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		return Response.ok().build();
+		var query = postRepository.find("user", user);
+		var list = query.list();
+		
+		var postResponse = list.stream()
+			.map(post -> PostResponse.fromEntity(post))
+			.collect(Collectors.toList());
+		
+		return Response.ok(postResponse).build();
 	}
 	
 }
