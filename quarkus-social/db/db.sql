@@ -1,20 +1,20 @@
 create database quarkus-social;
 
-create table USERS (
+create table users (
 	id bigserial not null primary key,
 	name varchar(100) not null,
 	age integer not null
 );
 
-create table POSTS (
+create table posts (
 	id bigserial not null primary key,
 	post_text varchar(150) not null,
 	dataTime timestamp,
-	user_id bigserial not null references USERS(id)
+	user_id bigserial not null references users(id)
 )
 
-create table FOLLOWERS (
+create table followers (
 	id bigserial not null primary key,
-	user_id bigint not null references USERS(id),
-	follower_id bigint not null references USERS(id)
+	user_id bigint not null references users(id),
+	follower_id bigint not null references users(id)
 );
