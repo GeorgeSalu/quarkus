@@ -9,6 +9,7 @@ import org.acme.model.User;
 import org.acme.repository.PostRepository;
 import org.acme.repository.UserRepository;
 
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -58,7 +59,7 @@ public class PostResource {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		var query = postRepository.find("user", user);
+		var query = postRepository.find("user",Sort.by("dataTime", Sort.Direction.Descending) , user);
 		var list = query.list();
 		
 		var postResponse = list.stream()
