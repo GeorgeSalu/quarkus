@@ -1,6 +1,6 @@
 package org.acme.rest;
 
-import org.acme.dto.FollloweRequest;
+import org.acme.dto.FollowerRequest;
 import org.acme.model.Follower;
 import org.acme.repository.FollowerRepository;
 import org.acme.repository.UserRepository;
@@ -29,7 +29,7 @@ public class FollowerResource {
 	}
 	
 	@PUT
-	public Response followerUser(@PathParam("userId") Long userId,FollloweRequest request) {
+	public Response followerUser(@PathParam("userId") Long userId,FollowerRequest request) {
 		var user = userRepository.findById(userId);
 		if(user == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();

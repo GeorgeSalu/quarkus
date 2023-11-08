@@ -1,6 +1,6 @@
 package org.acme.dto;
 
-public class FollloweRequest {
+public class FollowerRequest {
 
 	private Long followerId;
 
