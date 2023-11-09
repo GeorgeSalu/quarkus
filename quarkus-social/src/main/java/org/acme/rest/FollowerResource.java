@@ -6,6 +6,7 @@ import org.acme.repository.FollowerRepository;
 import org.acme.repository.UserRepository;
 
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -29,6 +30,7 @@ public class FollowerResource {
 	}
 	
 	@PUT
+	@Transactional
 	public Response followerUser(@PathParam("userId") Long userId,FollowerRequest request) {
 		var user = userRepository.findById(userId);
 		if(user == null) {
@@ -37,11 +39,17 @@ public class FollowerResource {
 		
 		var follower = userRepository.findById(request.getFollowerId());
 		
-		var entity = new Follower();
-		entity.setUser(user);
-		entity.setFollower(follower);
+		boolean follows = repository.follows(follower, user);
 		
-		repository.persist(entity);
+		
+		if(!follows) {
+			
+			var entity = new Follower();
+			entity.setUser(user);
+			entity.setFollower(follower);
+			
+			repository.persist(entity);
+		}
 		
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
