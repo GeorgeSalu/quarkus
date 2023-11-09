@@ -24,34 +24,33 @@ public class FollowerResource {
 	private FollowerRepository repository;
 
 	@Inject
-	public FollowerResource(FollowerRepository repository,UserRepository userRepository) {
+	public FollowerResource(FollowerRepository repository, UserRepository userRepository) {
 		this.repository = repository;
 		this.userRepository = userRepository;
 	}
-	
+
 	@PUT
 	@Transactional
-	public Response followerUser(@PathParam("userId") Long userId,FollowerRequest request) {
+	public Response followerUser(@PathParam("userId") Long userId, FollowerRequest request) {
 		var user = userRepository.findById(userId);
-		if(user == null) {
+		if (user == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		
+
 		var follower = userRepository.findById(request.getFollowerId());
-		
+
 		boolean follows = repository.follows(follower, user);
-		
-		
-		if(!follows) {
-			
+
+		if (!follows) {
+
 			var entity = new Follower();
 			entity.setUser(user);
 			entity.setFollower(follower);
-			
+
 			repository.persist(entity);
 		}
-		
+
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
-	
+
 }
