@@ -6,6 +6,7 @@ import org.acme.dto.CreatePostRequest;
 import org.acme.dto.PostResponse;
 import org.acme.model.Post;
 import org.acme.model.User;
+import org.acme.repository.FollowerRepository;
 import org.acme.repository.PostRepository;
 import org.acme.repository.UserRepository;
 
@@ -14,6 +15,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -28,11 +30,13 @@ public class PostResource {
 	
 	private UserRepository userRepository;
 	private PostRepository postRepository;
+	private FollowerRepository followerRepository;
 
 	@Inject
-	public PostResource(UserRepository userRepository,PostRepository postRepository) {
+	public PostResource(UserRepository userRepository,PostRepository postRepository,FollowerRepository followerRepository) {
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
+		this.followerRepository = followerRepository;
 	}
 
 	@POST
@@ -53,10 +57,30 @@ public class PostResource {
 	}
 	
 	@GET
-	public Response listPosts(@PathParam("userId") Long userId) {
+	public Response listPosts(@PathParam("userId") Long userId,@HeaderParam("followerId") Long followerId) {
 		User user = userRepository.findById(userId);
 		if(user == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		
+		if(followerId == null) {
+			return Response
+						.status(Response.Status.BAD_REQUEST)
+						.entity("you forgot the header")
+						.build();
+		}
+		
+		User follower = userRepository.findById(followerId);
+		
+		if(follower == null) {
+			return Response
+						.status(Response.Status.BAD_REQUEST)
+						.build();
+		}
+		
+		boolean follows = followerRepository.follows(follower, user);
+		if(!follows) {
+			return Response.status(Response.Status.FORBIDDEN).entity("you cant see these post").build();
 		}
 		
 		var query = postRepository.find("user",Sort.by("dataTime", Sort.Direction.Descending) , user);
