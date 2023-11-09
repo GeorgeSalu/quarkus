@@ -1,5 +1,6 @@
 package org.acme.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.acme.model.Follower;
@@ -20,6 +21,11 @@ public class FollowerRepository implements PanacheRepository<Follower> {
 		Optional<Follower> result = query.firstResultOptional();
 		
 		return result.isPresent();
+	}
+	
+	public List<Follower> findByUSer(Long userId) {
+		PanacheQuery<Follower> query = find("user.id", userId);
+		return query.list();
 	}
 	
 }

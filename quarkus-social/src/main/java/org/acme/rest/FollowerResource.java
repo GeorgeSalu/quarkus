@@ -1,6 +1,10 @@
 package org.acme.rest;
 
+import java.util.stream.Collectors;
+
 import org.acme.dto.FollowerRequest;
+import org.acme.dto.FollowerResponse;
+import org.acme.dto.FollowersPerUserResponse;
 import org.acme.model.Follower;
 import org.acme.repository.FollowerRepository;
 import org.acme.repository.UserRepository;
@@ -8,6 +12,7 @@ import org.acme.repository.UserRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -56,6 +61,24 @@ public class FollowerResource {
 		}
 
 		return Response.status(Response.Status.NO_CONTENT).build();
+	}
+	
+	@GET
+	public Response listFollowers(@PathParam("userId") Long userId) {
+		var user = userRepository.findById(userId);
+		if (user == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		
+		var list = repository.findByUSer(userId);
+		FollowersPerUserResponse responseObject = new FollowersPerUserResponse();
+		
+		var followerList = list.stream()
+				.map(FollowerResponse::new)
+				.collect(Collectors.toList());
+		
+		responseObject.setContent(followerList);
+		return Response.ok(responseObject).build();
 	}
 
 }
