@@ -11,13 +11,17 @@ import java.util.Map;
 import org.acme.dto.CreateUserRequest;
 import org.acme.dto.ResponseError;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
 @QuarkusTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserResourceTest {
 
 	@TestHTTPResource("/users")
@@ -25,6 +29,7 @@ public class UserResourceTest {
 	
 	@Test
     @DisplayName("should create an user successfully")
+	@Order(1)
     public void createUserTest(){
         var user = new CreateUserRequest();
         user.setName("Fulano");
@@ -46,6 +51,7 @@ public class UserResourceTest {
 	
     @Test
     @DisplayName("should return error when json is not valid")
+    @Order(2)
     public void createUserValidationErrorTest(){
         var user = new CreateUserRequest();
         user.setAge(null);
