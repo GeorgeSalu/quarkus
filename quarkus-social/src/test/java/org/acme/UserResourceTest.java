@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.acme.dto.CreateUserRequest;
 import org.acme.dto.ResponseError;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -71,7 +72,19 @@ public class UserResourceTest {
         List<Map<String, String>> errors = response.jsonPath().getList("errors");
         assertNotNull(errors.get(0).get("message"));
         assertNotNull(errors.get(1).get("message"));
-
     }
-	
+
+    @Test
+    @DisplayName("should list all users")
+    @Order(3)
+    public void listAllUsersTest(){
+        given()
+            .contentType(ContentType.JSON)
+        .when()
+            .get(apiURL)
+        .then()
+            .statusCode(200)
+            .body("size()", Matchers.is(1));
+    }
+    
 }
