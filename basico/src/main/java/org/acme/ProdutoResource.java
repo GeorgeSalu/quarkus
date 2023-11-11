@@ -1,6 +1,9 @@
 package org.acme;
 
+import java.time.LocalDateTime;
+
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
@@ -18,6 +21,13 @@ public class ProdutoResource {
 	public String produtoById(@PathParam("id") Integer id) {
 		if(id == 1) return "laptop";
 		return "para esse id nao existe produto";
+	}
+	
+	@POST
+	@Path("/nome")
+	public String nomeProduto(String nomeProduto) {
+		LocalDateTime dateTime = LocalDateTime.now();
+		return nomeProduto+" foi processado em : "+dateTime;
 	}
 	
 }
