@@ -2,6 +2,7 @@ package org.acme;
 
 import java.time.LocalDateTime;
 
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -36,6 +37,13 @@ public class ProdutoResource {
 	public String putNomeProduto(String nomeProduto) {
 		LocalDateTime dateTime = LocalDateTime.now();
 		return nomeProduto+" foi processado em : "+dateTime;
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	public String deleteProduto(Integer id) {
+		if(id == 1) return "O produto "+id+" foi excluido com sucesso";
+		return "o produto "+id+" nao existe";
 	}
 	
 }
